@@ -398,7 +398,7 @@ public class PokerTaskWithBeer {
 
     public static void handleHighCards(PlayersHand[] winningHands, int[] winnerIndexes) {
         System.out.println();
-        int winningPlayerIndex = 0;
+
         int winningPlayersRank = 0;
         for (int i = 0; i < winningHands.length; i++) {
             String prefix = "a";
@@ -406,10 +406,13 @@ public class PokerTaskWithBeer {
             System.out.println("Player " + winnerIndexes[i] + "'s High Card is " + prefix + " " + Ranks.values()[determineHighCard(winningHands[i])] + "!");
             if (determineHighCard(winningHands[i]) > winningPlayersRank) {
                 winningPlayersRank = determineHighCard(winningHands[i]);
-                winningPlayerIndex = i;
+                }
+        }
+        for (int i = 0; i < winningHands.length; i++) {
+            if (determineHighCard(winningHands[i]) == winningPlayersRank) {
+                System.out.println("Player " + winnerIndexes[i] + " wins by High Card!");
             }
         }
-        System.out.println("Player " + winnerIndexes[winningPlayerIndex] + " wins by High Card!");
     }
 
     public static class CardRankComparator implements Comparator<Card> {
@@ -672,18 +675,18 @@ public class PokerTaskWithBeer {
         }
         int largestPairCounter = 0;
         int smallerPairCounter = 0;
+        int largestPairRank = -1;
         for (int i = 0; i < winningHands.length; i++) {
-            int largestPairRank = -1;
             if (playersHighPairRanks[i] > largestPairRank) {
                 largestPairRank = playersHighPairRanks[i];
                 largestPairCounter++;
             }
             if (largestPairCounter < 2) {
-                System.out.println("Player " + winnerIndexes[i] + " wins with a pair of " + Ranks.values()[playersHighPairRanks[i]] + "amd a pair of " + Ranks.values()[playersLowPairRanks[i]] + "!");
+                System.out.println("Player " + winnerIndexes[i] + " wins with a pair of " + Ranks.values()[playersHighPairRanks[i]] + " and a pair of " + Ranks.values()[playersLowPairRanks[i]] + "!");
                 break;
             } else {
+                int smallerPairRank = -1;
                 for (int j = 0; j < winningHands.length; j++) {
-                    int smallerPairRank = -1;
                     if (playersLowPairRanks[i] > smallerPairRank) {
                         smallerPairRank = playersLowPairRanks[i];
                         smallerPairCounter++;
@@ -959,14 +962,3 @@ public class PokerTaskWithBeer {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
